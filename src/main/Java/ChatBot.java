@@ -2,13 +2,14 @@ import java.util.Scanner;
 
 public class ChatBot {
     private String userName;
+    private Scanner scanner;  // Make scanner a class field
     
     public void startInteraction() {
         ConsoleUtils.clearScreen();
         AudioPlayer.playWelcomeSound();
         AsciiArt.display();
         
-        Scanner scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);  // Initialize the class field
         ConsoleUtils.printWithTypingEffect("\u001B[36mHello! Welcome to the Cybersecurity Awareness Bot. What's your name?\u001B[0m");
         userName = scanner.nextLine().trim();
         
@@ -43,27 +44,30 @@ public class ChatBot {
     
     public void run() {
         startInteraction();
-        Scanner scanner = new Scanner(System.in);
         
-        while (true) {
-            System.out.print("\n\u001B[34m" + userName + "> \u001B[0m");
-            String input = scanner.nextLine().trim();
-            
-            if (input.isEmpty()) {
-                System.out.println("\u001B[31mPlease enter a question...\u001B[0m");
-                continue;
+        try {
+            while (true) {
+                System.out.print("\n\u001B[34m" + userName + "> \u001B[0m");
+                String input = scanner.nextLine().trim();
+                
+                if (input.isEmpty()) {
+                    System.out.println("\u001B[31mPlease enter a question...\u001B[0m");
+                    continue;
+                }
+                
+                if (input.equalsIgnoreCase("exit") || input.equalsIgnoreCase("quit")) {
+                    System.out.println("\u001B[35mGoodbye " + userName + "! Stay safe online!\u001B[0m");
+                    break;
+                }
+                
+                String response = generateResponse(input);
+                ConsoleUtils.printSectionHeader("Response");
+                System.out.println("\u001B[36m" + response + "\u001B[0m");
             }
-            
-            if (input.equalsIgnoreCase("exit") || input.equalsIgnoreCase("quit")) {
-                System.out.println("\u001B[35mGoodbye " + userName + "! Stay safe online!\u001B[0m");
-                break;
+        } finally {
+            if (scanner != null) {
+                scanner.close();
             }
-            
-            String response = generateResponse(input);
-            ConsoleUtils.printSectionHeader("Response");
-            System.out.println("\u001B[36m" + response + "\u001B[0m");
         }
-        
-        scanner.close();
     }
 }
