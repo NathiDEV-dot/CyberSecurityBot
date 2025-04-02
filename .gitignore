@@ -1,0 +1,21 @@
+# Compiled files
+*.class
+*.log
+
+# Build directories
+/target/
+/out/
+/bin/
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Audio files
+*.wav
+!src/main/resources/welcome.wav
